@@ -8,7 +8,7 @@ const Todolist = () => {
   const [loggedIn, setLoggedIn] = useState(false);
 
   // obtener las tasks de la api
-  async function getTask(user) {
+  async function getTasks(user) {
     const uri = `${host}/users/${user}`;
     const options = { method: "GET" };
     const response = await fetch(uri, options);
@@ -30,7 +30,7 @@ const Todolist = () => {
       return;
     }
     // Eliminar
-    setTasks(tasks.filter((tarea) => tarea.id !== id));
+    setTasks(tasks.filter((task) => task.id !== id));
   }
 
   // añadir nueva tarea
@@ -46,8 +46,8 @@ const Todolist = () => {
       console.log("ha habido un error", response.status, response.statusText);
       return;
     }
-    const newTask = await response.json();
-    setTasks([...tasks, newTask]);
+    const nueva = await response.json();
+    setTasks([...tasks, nueva]);
     setNewTask(""); // Limpiar el campo de entrada
   }
 
@@ -63,7 +63,7 @@ const Todolist = () => {
         if (createUser.ok) {
           console.log("user creado:", user);
           setLoggedIn(true);
-          getTask(user);
+          getTasks(user);
         } else {
           console.log("Error al crear user", createUser.status, createUser.statusText);
         }
@@ -72,14 +72,14 @@ const Todolist = () => {
       }
       return;
     }
-    // iniciar sesión
+    // user encontrado, iniciar sesión
     setLoggedIn(true);
-    getTask(user);
+    getTasks(user);
   }
 
   useEffect(() => {
     if (loggedIn) {
-      getTask(user);
+      getTasks(user);
     }
   }, [loggedIn, user]);
 
