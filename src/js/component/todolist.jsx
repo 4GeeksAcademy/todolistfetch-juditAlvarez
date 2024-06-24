@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 
 const Todolist = () => {
   const host = "https://playground.4geeks.com/todo";
-  const [tasks, settasks] = useState([]);
-  const [newTaskTask, setnewTaskTask] = useState("");
-  const [user, setuser] = useState("");
+  const [tasks, setTasks] = useState([]);
+  const [newTask, setNewTask] = useState("");
+  const [user, setUser] = useState("");
   const [loggedIn, setLoggedIn] = useState(false);
 
   // obtener las tasks de la api
@@ -17,7 +17,7 @@ const Todolist = () => {
       return;
     }
     const data = await response.json();
-    settasks(data.todos);
+    setTasks(data.todos);
   }
 
   // borrar las tasks
@@ -30,7 +30,7 @@ const Todolist = () => {
       return;
     }
     // Eliminar
-    settasks(tasks.filter((tarea) => tarea.id !== id));
+    setTasks(tasks.filter((tarea) => tarea.id !== id));
   }
 
   // añadir nueva tarea
@@ -47,8 +47,8 @@ const Todolist = () => {
       return;
     }
     const newTask = await response.json();
-    settasks([...tasks, newTask]);
-    setnewTaskTask(""); // Limpiar el campo de entrada
+    setTasks([...tasks, newTask]);
+    setNewTask(""); // Limpiar el campo de entrada
   }
 
   // iniciar sesión o crear user
@@ -92,7 +92,7 @@ const Todolist = () => {
             type="text"
             placeholder="Nombre de user"
             value={user}
-            onChange={(e) => setuser(e.target.value)}
+            onChange={(e) => setUser(e.target.value)}
           />
           <button className="btn btn-primary" onClick={login}>
             Iniciar Sesión
@@ -111,8 +111,8 @@ const Todolist = () => {
                   <input
                     type="text"
                     placeholder="Escribe una tarea"
-                    value={newTaskTask}
-                    onChange={(e) => setnewTaskTask(e.target.value)}
+                    value={newTask}
+                    onChange={(e) => setNewTask(e.target.value)}
                   />
                 </div>
               </div>
